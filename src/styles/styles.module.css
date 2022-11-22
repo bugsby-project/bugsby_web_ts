@@ -1,0 +1,29 @@
+.title {
+    font-weight: 700 !important;
+    font-size: 4vh !important;
+}
+
+.link {
+    color: #3F72AF;
+}
+
+.link:visited, .link:link {
+    text-decoration: none;
+}
+
+.content {
+    background-color: #f9f7f7;
+    height: 100vh;
+}
+
+.button {
+    background-color: #3F72AF !important;
+}
+
+.button:hover {
+    background-color: #112d4e !important;
+}
+
+.textField {
+    background-color: white;
+}
