@@ -24,6 +24,9 @@ jobs:
       - name: Verify Node dependencies
         run: npm install
 
+      - name: Generate Swagger client
+        run: npx swagger-typescript-api -p bugsbyApi.yaml --axios -o src/apis -n bugsbyApi.ts
+
       - name: Build project
         run: npm run build
 
