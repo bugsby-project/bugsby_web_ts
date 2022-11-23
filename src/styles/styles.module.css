@@ -32,3 +32,10 @@
 .textField {
     background-color: white;
 }
+
+.formBox {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: 15px;
+}

@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import {Api} from "./apis/bugsbyApi";
 import BugsbySnackbar, {BugsbySnackbarProps} from "./components/BugsbySnackbar";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
     // todo retrieve from env file
@@ -16,8 +17,15 @@ function App() {
     return (
         <BrowserRouter>
             <div className={"App"}>
-                <BugsbySnackbar snackbarProps={snackbarProps} setSnackbarProps={setSnackbarProps}/>
+                <BugsbySnackbar
+                    snackbarProps={snackbarProps}
+                    setSnackbarProps={setSnackbarProps}
+                />
                 <Routes>
+                    <Route
+                        path={"/"}
+                        element={<LoginPage api={api} setSnackbarProps={setSnackbarProps}/>}
+                    />
                     <Route
                         path={"/create-account"}
                         element={<CreateAccountPage api={api} setSnackbarProps={setSnackbarProps}/>}

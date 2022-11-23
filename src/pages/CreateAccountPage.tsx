@@ -33,9 +33,9 @@ const CreateAccountPage: FC<Props> = ({api, setSnackbarProps}) => {
     return (
         <Box
             sx={{
-                 display: "flex",
-                 flexDirection: "column",
-                 gap: "3vh"
+                display: "flex",
+                flexDirection: "column",
+                gap: "3vh"
             }}
             className={styles.content}
         >
@@ -61,12 +61,7 @@ const CreateAccountPage: FC<Props> = ({api, setSnackbarProps}) => {
                 </Typography>
             </Box>
             <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignSelf: "center",
-                    gap: "15px",
-                }}
+                className={styles.formBox}
             >
                 <Typography className={styles.title}>
                     Create an account
