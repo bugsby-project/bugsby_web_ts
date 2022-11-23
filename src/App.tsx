@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CreateAccountPage from "./pages/CreateAccountPage";
-import {Api} from "./apis/bugsbyApi";
+import {Api, AuthenticationResponse} from "./apis/bugsbyApi";
 import BugsbySnackbar, {BugsbySnackbarProps} from "./components/BugsbySnackbar";
 import LoginPage from "./pages/LoginPage";
 
@@ -13,6 +13,7 @@ function App() {
         open: false,
         alertProps: {}
     });
+    const [authenticationResponse, setAuthenticationResponse] = useState<AuthenticationResponse>({});
 
     return (
         <BrowserRouter>
@@ -24,7 +25,7 @@ function App() {
                 <Routes>
                     <Route
                         path={"/"}
-                        element={<LoginPage api={api} setSnackbarProps={setSnackbarProps}/>}
+                        element={<LoginPage api={api} setSnackbarProps={setSnackbarProps} setAuthenticationResponse={setAuthenticationResponse}/>}
                     />
                     <Route
                         path={"/create-account"}

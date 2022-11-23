@@ -6,8 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import {BugsbySnackbarProps} from "../components/BugsbySnackbar";
 import styles from "../styles/styles.module.css";
-import {Link} from "react-router-dom";
-import {Api, AuthenticationRequest} from "../apis/bugsbyApi";
+import {Link, useNavigate} from "react-router-dom";
+import {Api, AuthenticationRequest, AuthenticationResponse} from "../apis/bugsbyApi";
 import {Button, TextField} from "@mui/material";
 import BugsbyLogo from "../components/BugsbyLogo";
 
@@ -15,15 +15,19 @@ const drawerWidth = "50%";
 
 interface Props {
     api: Api<any>,
-    setSnackbarProps: Dispatch<SetStateAction<BugsbySnackbarProps>>
+    setSnackbarProps: Dispatch<SetStateAction<BugsbySnackbarProps>>,
+    setAuthenticationResponse: Dispatch<SetStateAction<AuthenticationResponse>>
 }
 
-const LoginPage: FC<Props> = ({api, setSnackbarProps}) => {
+const LoginPage: FC<Props> = ({api, setSnackbarProps, setAuthenticationResponse}) => {
     const [loginRequest, setLoginRequest] = useState<AuthenticationRequest>({});
+    const navigate = useNavigate();
 
     const handleButtonClicked = () => api.users.login(loginRequest)
-        // todo
-        .then(response => console.log(response.data))
+        .then(response => {
+            setAuthenticationResponse(response.data)
+            navigate(`/${response.data.user?.username}`)
+        })
         .catch(error => setSnackbarProps({
             open: true,
             alertProps: {
