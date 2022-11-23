@@ -13,7 +13,8 @@ function App() {
         open: false,
         alertProps: {}
     });
-    const [authenticationResponse, setAuthenticationResponse] = useState<AuthenticationResponse>({});
+    // todo get authenticationResponse
+    const [, setAuthenticationResponse] = useState<AuthenticationResponse>({});
 
     return (
         <BrowserRouter>
