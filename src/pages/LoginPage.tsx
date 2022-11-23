@@ -10,6 +10,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {Api, AuthenticationRequest, AuthenticationResponse} from "../apis/bugsbyApi";
 import {Button, TextField} from "@mui/material";
 import BugsbyLogo from "../components/BugsbyLogo";
+import BugColony from "../components/BugColony";
 
 const drawerWidth = "50%";
 
@@ -71,10 +72,11 @@ const LoginPage: FC<Props> = ({api, setSnackbarProps, setAuthenticationResponse}
                     </Typography>
                     <Typography
                         className={styles.title}
-                        sx={{color: "white", marginTop: "1.5em"}}
+                        sx={{color: "white", marginTop: "1.5em", marginBottom: "2em"}}
                     >
                         Start organising your issues <br/> with Bugsby
                     </Typography>
+                    <BugColony color={"white"}/>
                 </Box>
             </Drawer>
             <Box
