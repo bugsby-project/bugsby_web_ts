@@ -6,16 +6,18 @@ import styles from '../styles/styles.module.css';
 interface Props {
     logoColor: string;
     textColor: string;
+    css?: object;
 }
 
-const BugsbyLogo: FC<Props> = ({logoColor, textColor}) => {
+const BugsbyLogo: FC<Props> = ({logoColor, textColor, css}) => {
     return (
         <Box
             sx={{
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "flex-start"
+                justifyContent: "flex-start",
+                ...css
             }}
         >
             <BugReportOutlined

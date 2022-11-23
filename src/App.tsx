@@ -5,6 +5,7 @@ import CreateAccountPage from "./pages/CreateAccountPage";
 import {Api, AuthenticationResponse} from "./apis/bugsbyApi";
 import BugsbySnackbar, {BugsbySnackbarProps} from "./components/BugsbySnackbar";
 import LoginPage from "./pages/LoginPage";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
     // todo retrieve from env file
@@ -31,6 +32,10 @@ function App() {
                     <Route
                         path={"/create-account"}
                         element={<CreateAccountPage api={api} setSnackbarProps={setSnackbarProps}/>}
+                    />
+                    <Route
+                        path={"/error"}
+                        element={<ErrorPage/>}
                     />
                 </Routes>
             </div>
