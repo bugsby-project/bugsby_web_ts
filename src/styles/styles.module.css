@@ -1,5 +1,10 @@
+.bugsbyLogo {
+    font-weight: 900 !important;
+    font-size: 4vh !important;
+}
+
 .title {
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     font-size: 4vh !important;
 }
 
@@ -26,4 +31,11 @@
 
 .textField {
     background-color: white;
+}
+
+.formBox {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: 15px;
 }

@@ -24,7 +24,7 @@ const BugsbyLogo: FC<Props> = ({logoColor, textColor}) => {
             />
             <Typography
                 color={textColor}
-                className={styles.title}
+                className={styles.bugsbyLogo}
             >
                 Bugsby
             </Typography>
