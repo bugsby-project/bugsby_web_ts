@@ -16,7 +16,7 @@ function App() {
         alertProps: {}
     });
     // todo get authenticationResponse
-    const [, setAuthenticationResponse] = useState<AuthenticationResponse>({});
+    const [authenticationResponse, setAuthenticationResponse] = useState<AuthenticationResponse>({});
 
     return (
         <BrowserRouter>
@@ -40,7 +40,12 @@ function App() {
                     />
                     <Route
                         path={"/:username/projects"}
-                        element={<ViewProjectsPage/>}
+                        element={<ViewProjectsPage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
+                    />
+                    <Route
+                        path={"/:username/assigned-issues"}
+                        // todo replace with actual component
+                        element={<div></div>}
                     />
                 </Routes>
             </div>

@@ -17,6 +17,7 @@ import MenuOptionListItem from "./MenuOptionListItem";
 import {CodeOutlined, LogoutOutlined, PestControlOutlined} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 import styles from "../styles/styles.module.css";
+import {AuthenticationResponse} from "../apis/bugsbyApi";
 
 const drawerWidth = 240;
 
@@ -91,10 +92,11 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 interface Props {
     content: React.ReactNode;
+    authenticationResponse: AuthenticationResponse;
     contentClassName?: string;
 }
 
-const BugsbyDrawer: FC<Props> = ({content, contentClassName}) => {
+const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassName}) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -139,13 +141,12 @@ const BugsbyDrawer: FC<Props> = ({content, contentClassName}) => {
                     <MenuOptionListItem
                         icon={<CodeOutlined htmlColor={"white"} fontSize={"large"}/>}
                         content={"Projects"}
-                        // todo replace with proper values
-                        linkPath={"/"}
+                        linkPath={`/${authenticationResponse.user?.username}/projects`}
                     />
                     <MenuOptionListItem
                         icon={<PestControlOutlined htmlColor={"white"} fontSize={"large"}/>}
                         content={"Issues"}
-                        linkPath={"/"}
+                        linkPath={`/${authenticationResponse.user?.username}/assigned-issues`}
                     />
                 </List>
                 <List style={{marginTop: "auto", backgroundColor: "#112d4e"}}>
