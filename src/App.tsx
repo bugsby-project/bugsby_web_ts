@@ -6,6 +6,7 @@ import {Api, AuthenticationResponse} from "./apis/bugsbyApi";
 import BugsbySnackbar, {BugsbySnackbarProps} from "./components/BugsbySnackbar";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
+import ViewProjectsPage from "./pages/ViewProjectsPage";
 
 function App() {
     // todo retrieve from env file
@@ -36,6 +37,10 @@ function App() {
                     <Route
                         path={"/error"}
                         element={<ErrorPage/>}
+                    />
+                    <Route
+                        path={"/:username/projects"}
+                        element={<ViewProjectsPage/>}
                     />
                 </Routes>
             </div>
