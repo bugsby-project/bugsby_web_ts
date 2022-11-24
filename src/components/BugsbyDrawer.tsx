@@ -151,13 +151,13 @@ const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassN
                 </List>
                 <List style={{marginTop: "auto", backgroundColor: "#112d4e"}}>
                     <MenuOptionListItem
-                        icon={<LogoutOutlined htmlColor={"white"} fontSize={"large"}/>}
+                        icon={<LogoutOutlined htmlColor={"white"} fontSize={"large"} onClick={() => window.localStorage.clear()}/>}
                         content={"Logout"}
                         linkPath={"/"}
                     />
                 </List>
             </Drawer>
-            <Box component="main" sx={{flexGrow: 1, p: 3}}>
+            <Box component="main" sx={{flexGrow: 1, p: 3}} className={contentClassName}>
                 <DrawerHeader/>
                 {content}
             </Box>

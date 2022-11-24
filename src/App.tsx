@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CreateAccountPage from "./pages/CreateAccountPage";
@@ -9,14 +9,26 @@ import ErrorPage from "./pages/ErrorPage";
 import ViewProjectsPage from "./pages/ViewProjectsPage";
 
 function App() {
-    // todo retrieve from env file
-    const api = new Api({baseURL: 'http://localhost:8080'});
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
         open: false,
         alertProps: {}
     });
-    // todo get authenticationResponse
     const [authenticationResponse, setAuthenticationResponse] = useState<AuthenticationResponse>({});
+
+    useEffect(() => {
+        const loggedInUser = window.localStorage.getItem("authenticationResponse");
+        if (loggedInUser && !authenticationResponse.jwt) {
+            setAuthenticationResponse(JSON.parse(loggedInUser));
+        }
+    }, [authenticationResponse.jwt])
+
+    // todo retrieve from env file
+    const api = new Api({
+        baseURL: 'http://localhost:8080',
+        headers: {
+            "Authorization": authenticationResponse.jwt && `Bearer ${authenticationResponse.jwt}`
+        }
+    });
 
     return (
         <BrowserRouter>
