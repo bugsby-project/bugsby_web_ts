@@ -94,9 +94,10 @@ interface Props {
     content: React.ReactNode;
     authenticationResponse: AuthenticationResponse;
     contentClassName?: string;
+    contentStyle?: object;
 }
 
-const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassName}) => {
+const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassName, contentStyle}) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -157,7 +158,7 @@ const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassN
                     />
                 </List>
             </Drawer>
-            <Box component="main" sx={{flexGrow: 1, p: 3}} className={contentClassName}>
+            <Box component="main" sx={{flexGrow: 1, p: 3, ...contentStyle}} className={contentClassName}>
                 <DrawerHeader/>
                 {content}
             </Box>

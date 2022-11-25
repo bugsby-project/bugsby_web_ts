@@ -59,6 +59,11 @@ function App() {
                         // todo replace with actual component
                         element={<div></div>}
                     />
+                    <Route
+                        path={"/projects/:id"}
+                        // todo replace with actual component
+                        element={<div></div>}
+                    />
                 </Routes>
             </div>
         </BrowserRouter>
