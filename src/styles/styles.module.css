@@ -21,6 +21,10 @@
     height: 100vh;
 }
 
+.contentImplicitHeight {
+    background-color: #f9f7f7;
+}
+
 .button {
     background-color: #3F72AF !important;
 }
