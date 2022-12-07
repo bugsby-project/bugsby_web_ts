@@ -24,6 +24,8 @@ const LoginPage: FC<Props> = ({api, setSnackbarProps, setAuthenticationResponse}
     const [loginRequest, setLoginRequest] = useState<AuthenticationRequest>({});
     const navigate = useNavigate();
 
+    window.localStorage.clear();
+
     const handleButtonClicked = () => api.users.login(loginRequest)
         .then(response => {
             setAuthenticationResponse(response.data)
