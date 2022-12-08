@@ -24,10 +24,13 @@ const LoginPage: FC<Props> = ({api, setSnackbarProps, setAuthenticationResponse}
     const [loginRequest, setLoginRequest] = useState<AuthenticationRequest>({});
     const navigate = useNavigate();
 
+    window.localStorage.clear();
+
     const handleButtonClicked = () => api.users.login(loginRequest)
         .then(response => {
             setAuthenticationResponse(response.data)
-            navigate(`/${response.data.user?.username}`)
+            window.localStorage.setItem("authenticationResponse", JSON.stringify(response.data));
+            navigate(`/${response.data.user?.username}/projects`)
         })
         .catch(error => setSnackbarProps({
             open: true,

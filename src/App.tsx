@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CreateAccountPage from "./pages/CreateAccountPage";
@@ -6,16 +6,29 @@ import {Api, AuthenticationResponse} from "./apis/bugsbyApi";
 import BugsbySnackbar, {BugsbySnackbarProps} from "./components/BugsbySnackbar";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
+import ViewProjectsPage from "./pages/ViewProjectsPage";
 
 function App() {
-    // todo retrieve from env file
-    const api = new Api({baseURL: 'http://localhost:8080'});
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
         open: false,
         alertProps: {}
     });
-    // todo get authenticationResponse
-    const [, setAuthenticationResponse] = useState<AuthenticationResponse>({});
+    const [authenticationResponse, setAuthenticationResponse] = useState<AuthenticationResponse>({});
+
+    useEffect(() => {
+        const loggedInUser = window.localStorage.getItem("authenticationResponse");
+        if (loggedInUser && !authenticationResponse.jwt) {
+            setAuthenticationResponse(JSON.parse(loggedInUser));
+        }
+    }, [authenticationResponse.jwt])
+
+    // todo retrieve from env file
+    const api = new Api({
+        baseURL: 'http://localhost:8080',
+        headers: {
+            "Authorization": authenticationResponse.jwt && `Bearer ${authenticationResponse.jwt}`
+        }
+    });
 
     return (
         <BrowserRouter>
@@ -36,6 +49,25 @@ function App() {
                     <Route
                         path={"/error"}
                         element={<ErrorPage/>}
+                    />
+                    <Route
+                        path={"/:username/projects"}
+                        element={<ViewProjectsPage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
+                    />
+                    <Route
+                        path={"/:username/assigned-issues"}
+                        // todo replace with actual component
+                        element={<div></div>}
+                    />
+                    <Route
+                        path={"/projects/:id"}
+                        // todo replace with actual component
+                        element={<div></div>}
+                    />
+                    <Route
+                        path={"/add-project"}
+                        // todo replace with actual component
+                        element={<div></div>}
                     />
                 </Routes>
             </div>
