@@ -64,6 +64,11 @@ function App() {
                         // todo replace with actual component
                         element={<div></div>}
                     />
+                    <Route
+                        path={"/add-project"}
+                        // todo replace with actual component
+                        element={<div></div>}
+                    />
                 </Routes>
             </div>
         </BrowserRouter>
