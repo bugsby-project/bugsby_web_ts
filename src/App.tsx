@@ -22,9 +22,8 @@ function App() {
         }
     }, [authenticationResponse.jwt])
 
-    // todo retrieve from env file
     const api = new Api({
-        baseURL: 'http://localhost:8080',
+        baseURL: process.env.REACT_APP_API_URL,
         headers: {
             "Authorization": authenticationResponse.jwt && `Bearer ${authenticationResponse.jwt}`
         }
