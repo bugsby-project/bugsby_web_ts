@@ -12,7 +12,7 @@ interface Props {
 const ProjectDisplay: FC<Props> = ({involvement}) => {
     const stylesTypography = {
         margin: "10px",
-        color: "black",
+        color: "#112d4e",
         fontWeight: "400"
     };
 
@@ -31,12 +31,12 @@ const ProjectDisplay: FC<Props> = ({involvement}) => {
                 }}
             >
                 <Grid item xs={6}>
-                    <Typography sx={stylesTypography}>
+                    <Typography sx={{...stylesTypography, fontWeight: "600"}} className={styles.subTitle}>
                         {involvement.project?.title}
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    <Typography noWrap align={"right"} sx={stylesTypography}>
+                    <Typography noWrap align={"right"} sx={stylesTypography} className={styles.subTitle}>
                         {formatString(involvement.role)}
                     </Typography>
                 </Grid>
