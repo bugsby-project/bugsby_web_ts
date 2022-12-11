@@ -42,7 +42,7 @@ const ViewProjectsPage: FC<Props> = ({api, authenticationResponse, setSnackbarPr
 
     const content = (
         <Box
-            sx={{margin: "auto 2em", display: "flex", flexDirection: "column", gap: "15px"}}
+            className={styles.formBox}
         >
             <Box
                 sx={{display: "flex", justifyContent: "space-between"}}

@@ -7,6 +7,7 @@ import BugsbySnackbar, {BugsbySnackbarProps} from "./components/BugsbySnackbar";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import ViewProjectsPage from "./pages/ViewProjectsPage";
+import AddProjectPage from "./pages/AddProjectPage";
 
 function App() {
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
@@ -65,8 +66,7 @@ function App() {
                     />
                     <Route
                         path={"/add-project"}
-                        // todo replace with actual component
-                        element={<div></div>}
+                        element={<AddProjectPage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
                     />
                 </Routes>
             </div>
