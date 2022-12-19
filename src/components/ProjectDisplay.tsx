@@ -31,12 +31,12 @@ const ProjectDisplay: FC<Props> = ({involvement}) => {
                 }}
             >
                 <Grid item xs={6}>
-                    <Typography sx={{...stylesTypography, fontWeight: "600"}} className={styles.subTitle}>
+                    <Typography sx={{...stylesTypography, fontWeight: "600"}} className={styles.subSubTitle}>
                         {involvement.project?.title}
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    <Typography noWrap align={"right"} sx={stylesTypography} className={styles.subTitle}>
+                    <Typography noWrap align={"right"} sx={stylesTypography} className={styles.subSubTitle}>
                         {formatString(involvement.role)}
                     </Typography>
                 </Grid>

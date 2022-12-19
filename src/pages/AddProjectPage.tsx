@@ -61,6 +61,7 @@ const AddProjectPage: FC<Props> = ({api, authenticationResponse, setSnackbarProp
             />
             <Autocomplete
                 disablePortal={true}
+                className={styles.textField}
                 renderInput={(params) => (
                     <TextField
                         {...params}
