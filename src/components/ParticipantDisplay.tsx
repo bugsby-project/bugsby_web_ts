@@ -1,15 +1,15 @@
-import {FC} from "react";
 import {InvolvementResponse} from "../apis/bugsbyApi";
+import {FC} from "react";
 import {Grid, Typography} from "@mui/material";
-import {Link} from "react-router-dom";
 import styles from "../styles/styles.module.css";
 import {formatString} from "../utils";
+import {Link} from "react-router-dom";
 
 interface Props {
-    involvement: InvolvementResponse;
+    involvement: InvolvementResponse
 }
 
-const ProjectDisplay: FC<Props> = ({involvement}) => {
+const ParticipantDisplay: FC<Props> = ({involvement}) => {
     const stylesTypography = {
         margin: "10px",
         color: "#112d4e",
@@ -18,7 +18,7 @@ const ProjectDisplay: FC<Props> = ({involvement}) => {
 
     return (
         <Link
-            to={`/projects/${involvement.project?.id}`}
+            to={`/${involvement.user?.username}/projects`}
             className={styles.link}
         >
             <Grid
@@ -27,7 +27,7 @@ const ProjectDisplay: FC<Props> = ({involvement}) => {
             >
                 <Grid item xs={6}>
                     <Typography sx={{...stylesTypography, fontWeight: "600"}} className={styles.subSubTitle}>
-                        {involvement.project?.title}
+                        {`${involvement.user?.firstName} ${involvement.user?.lastName}`}
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -35,14 +35,9 @@ const ProjectDisplay: FC<Props> = ({involvement}) => {
                         {formatString(involvement.role)}
                     </Typography>
                 </Grid>
-                <Grid item xs={1}>
-                    <Typography sx={stylesTypography}>
-                        {involvement.project?.description}
-                    </Typography>
-                </Grid>
             </Grid>
         </Link>
     )
 };
 
-export default ProjectDisplay;
+export default ParticipantDisplay;
