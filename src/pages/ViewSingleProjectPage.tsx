@@ -1,13 +1,22 @@
-import {Api, AuthenticationResponse, InvolvementsList, IssueList, ProjectResponse} from "../apis/bugsbyApi";
+import {
+    Api,
+    AuthenticationResponse,
+    InvolvementsList,
+    InvolvementsRequest,
+    IssueList,
+    ProjectResponse,
+    UsernameList
+} from "../apis/bugsbyApi";
+import * as React from "react";
 import {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import {BugsbySnackbarProps} from "../components/BugsbySnackbar";
 import {useNavigate, useParams} from "react-router-dom";
 import BugsbyDrawer from "../components/BugsbyDrawer";
 import styles from "../styles/styles.module.css";
-import * as React from "react";
 import {Box, Button, Typography} from "@mui/material";
 import ParticipantDisplay from "../components/ParticipantDisplay";
 import Divider from "@mui/material/Divider";
+import AddParticipantDialog from "../components/AddParticipantDialog";
 
 interface Props {
     api: Api<any>;
@@ -15,12 +24,29 @@ interface Props {
     setSnackbarProps: Dispatch<SetStateAction<BugsbySnackbarProps>>;
 }
 
+const getUsernamesNotInProject = (allUsernames: UsernameList, involvements: InvolvementsList) => {
+    const usernamesInProject = involvements.involvements?.map(i => i.user?.username);
+    const result = usernamesInProject ?
+        allUsernames.usernames?.filter(u => usernamesInProject.indexOf(u) < 0)
+        : [];
+    return {
+        usernames: result
+    };
+};
+
 const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}) => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [project, setProject] = useState<ProjectResponse>({});
     const [involvements, setInvolvements] = useState<InvolvementsList>({});
     const [issues, setIssues] = useState<IssueList>({});
+
+    const [open, setOpen] = useState(false);
+    const [usernames, setUsernames] = useState<UsernameList>({});
+    const [involvementsRequest, setInvolvementsRequest] = useState<InvolvementsRequest>({
+        projectId: +id!,
+        requesterId: authenticationResponse.user?.id
+    });
 
     useEffect(() => {
             authenticationResponse.jwt &&
@@ -30,12 +56,32 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 .then(response => setInvolvements(response.data))
                 .then(() => api.projects.getIssuesByProjectId(+id!))
                 .then(response => setIssues(response.data))
+                .then(() => api.users.getUsernames())
+                .then(response => setUsernames(response.data))
                 .catch(error => navigate("/error"));
+            setInvolvementsRequest((prevState) => ({...prevState, requesterId: authenticationResponse.user?.id}));
         }
-        , [id, api.projects, authenticationResponse.jwt, navigate])
+        , [id, api.projects, api.users, authenticationResponse, navigate])
 
-    const handleButtonClicked = () => {
-        // todo open modal
+    const handleButtonClicked = () => setOpen(true);
+    const handleConfirm = (event: any) => {
+        authenticationResponse.jwt &&
+        api.involvements.addParticipant(involvementsRequest)
+            .then(result => setSnackbarProps({
+                open: true,
+                alertProps: {
+                    severity: "success",
+                    action: <>Added participant successfully</>
+                }
+            }))
+            .then(() => setOpen(false))
+            .catch(error => setSnackbarProps({
+                open: true,
+                alertProps: {
+                    severity: "error",
+                    action: <>{error.message}</>
+                }
+            }))
     }
 
     const content = (
@@ -54,7 +100,7 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 involvements.involvements?.map(involvement => (
                     <ParticipantDisplay
                         involvement={involvement}
-                        key={`involvemenet_${involvement.id}`}
+                        key={`involvement_${involvement.id}`}
                     />
                 ))
             }
@@ -65,6 +111,14 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
             >
                 Add participant
             </Button>
+            <AddParticipantDialog
+                usernames={getUsernamesNotInProject(usernames, involvements)}
+                involvementRequest={involvementsRequest}
+                setInvolvementRequest={setInvolvementsRequest}
+                open={open}
+                setOpen={setOpen}
+                handleConfirm={handleConfirm}
+            />
             <Divider/>
         </Box>
     )
