@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import ViewProjectsPage from "./pages/ViewProjectsPage";
 import AddProjectPage from "./pages/AddProjectPage";
+import ViewSingleProjectPage from "./pages/ViewSingleProjectPage";
 
 function App() {
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
@@ -61,8 +62,7 @@ function App() {
                     />
                     <Route
                         path={"/projects/:id"}
-                        // todo replace with actual component
-                        element={<div></div>}
+                        element={<ViewSingleProjectPage api={api} authenticationResponse={authenticationResponse} setSnackbarProps={setSnackbarProps}/>}
                     />
                     <Route
                         path={"/add-project"}
