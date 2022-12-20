@@ -136,9 +136,13 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 </Button>
             </Box>
             {
-                issues.issues?.map((issue, index) => (
+                issues.issues && issues.issues.length > 0 ? issues.issues.map((issue, index) => (
                     <IssueDisplay issue={issue} key={`issue_${index}`}/>
                 ))
+                    :
+                    <Typography sx={{color: "gray"}}>
+                        There are no issues to display
+                    </Typography>
             }
         </Box>
     )
