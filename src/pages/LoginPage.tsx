@@ -68,14 +68,12 @@ const LoginPage: FC<Props> = ({api, setSnackbarProps, setAuthenticationResponse}
                         textColor={"white"}
                     />
                     <Typography
-                        className={styles.title}
-                        sx={{color: "white", fontWeight: "900 !important", marginTop: "4rem"}}
+                        sx={{color: "white", fontWeight: "900 !important", marginTop: "4rem", fontSize: "4vh"}}
                     >
                         The solution for managing <br/> your projects efficiently
                     </Typography>
                     <Typography
-                        className={styles.title}
-                        sx={{color: "white", marginTop: "1.5em", marginBottom: "2em"}}
+                        sx={{color: "white", marginTop: "1.5em", marginBottom: "2em", fontSize: "4vh", fontWeight: "600"}}
                     >
                         Start organising your issues <br/> with Bugsby
                     </Typography>

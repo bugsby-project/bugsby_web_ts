@@ -6,10 +6,24 @@
 .title {
     font-weight: 600 !important;
     font-size: 4vh !important;
+    color: #112d4e !important;
 }
 
 .subTitle {
     font-size: 3.5vh !important;
+    color: #112d4e !important;
+}
+
+.subSubTitle {
+    font-size: 2.5vh !important;
+    color: #112d4e !important;
+}
+
+.borderedContainer {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid rgb(155, 154, 154);
 }
 
 .link {
