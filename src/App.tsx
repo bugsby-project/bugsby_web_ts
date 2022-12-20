@@ -61,6 +61,11 @@ function App() {
                         element={<div></div>}
                     />
                     <Route
+                        path={"/add-issue"}
+                        // todo replace with actual component
+                        element={<div></div>}
+                    />
+                    <Route
                         path={"/projects/:id"}
                         element={<ViewSingleProjectPage api={api} authenticationResponse={authenticationResponse} setSnackbarProps={setSnackbarProps}/>}
                     />

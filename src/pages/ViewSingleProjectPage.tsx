@@ -17,6 +17,7 @@ import {Box, Button, Typography} from "@mui/material";
 import ParticipantDisplay from "../components/ParticipantDisplay";
 import Divider from "@mui/material/Divider";
 import AddParticipantDialog from "../components/AddParticipantDialog";
+import IssueDisplay from "../components/IssueDisplay";
 
 interface Props {
     api: Api<any>;
@@ -84,6 +85,8 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
             }))
     }
 
+    const handleIssueButtonClicked = () => navigate("/add-issue");
+
     const content = (
         <Box className={styles.formBox}>
             <Typography className={styles.title}>
@@ -120,6 +123,23 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 handleConfirm={handleConfirm}
             />
             <Divider/>
+            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                <Typography className={styles.subSubTitle}>
+                    Issues
+                </Typography>
+                <Button
+                    variant={"contained"}
+                    onClick={handleIssueButtonClicked}
+                    className={styles.button}
+                >
+                    Add issue
+                </Button>
+            </Box>
+            {
+                issues.issues?.map((issue, index) => (
+                    <IssueDisplay issue={issue} key={`issue_${index}`}/>
+                ))
+            }
         </Box>
     )
 
