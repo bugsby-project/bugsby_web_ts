@@ -31,10 +31,10 @@ const ErrorPage: FC = () => {
                     htmlColor={"white"}
                     sx={{fontSize: "30vh"}}
                 />
-                <Typography sx={{color: "white"}} className={styles.title}>
+                <Typography sx={{color: "white"}}>
                     Oops.. This worked fine when I tested it...
                 </Typography>
-                <Typography sx={{color: "white"}} className={styles.title}>
+                <Typography sx={{color: "white"}}>
                     Try&nbsp;
                     <Link
                         to={"/"}
