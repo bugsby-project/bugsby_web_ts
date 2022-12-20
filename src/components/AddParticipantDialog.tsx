@@ -7,9 +7,9 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    DialogContentText,
     DialogTitle,
-    TextField,
-    Typography
+    TextField
 } from "@mui/material";
 import styles from "../styles/styles.module.css";
 
@@ -22,7 +22,14 @@ interface Props {
     handleConfirm: MouseEventHandler<any>
 }
 
-const AddParticipantDialog: FC<Props> = ({usernames, involvementRequest, setInvolvementRequest, open, setOpen, handleConfirm}) => {
+const AddParticipantDialog: FC<Props> = ({
+                                             usernames,
+                                             involvementRequest,
+                                             setInvolvementRequest,
+                                             open,
+                                             setOpen,
+                                             handleConfirm
+                                         }) => {
     return (
         <Dialog
             open={open}
@@ -32,9 +39,9 @@ const AddParticipantDialog: FC<Props> = ({usernames, involvementRequest, setInvo
                 Add participant
             </DialogTitle>
             <DialogContent className={styles.formBox}>
-                <Typography sx={{color: "gray"}}>
+                <DialogContentText sx={{color: "gray"}}>
                     Please select a user to add to the project
-                </Typography>
+                </DialogContentText>
                 <Autocomplete
                     value={null}
                     disablePortal={true}
