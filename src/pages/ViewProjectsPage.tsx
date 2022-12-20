@@ -50,18 +50,23 @@ const ViewProjectsPage: FC<Props> = ({api, authenticationResponse, setSnackbarPr
                 <Typography className={styles.title}>
                     {`${getUserFullName(involvements, username)}'s projects`}
                 </Typography>
-                <Button
-                    variant={"contained"}
-                    onClick={handleButtonClicked}
-                    className={styles.button}
-                >
-                    Add project
-                </Button>
+                {
+                    username === authenticationResponse.user?.username ?
+                        <Button
+                            variant={"contained"}
+                            onClick={handleButtonClicked}
+                            className={styles.button}
+                        >
+                            Add project
+                        </Button>
+                        :
+                        null
+                }
             </Box>
             {
                 involvements.involvements ? involvements.involvements.map((involvement, index) => (
-                    <ProjectDisplay involvement={involvement} key={index}/>
-                ))
+                        <ProjectDisplay involvement={involvement} key={index}/>
+                    ))
                     :
                     <Typography>
                         There are no projects to display
