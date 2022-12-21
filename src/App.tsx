@@ -10,6 +10,7 @@ import ViewProjectsPage from "./pages/ViewProjectsPage";
 import AddProjectPage from "./pages/AddProjectPage";
 import ViewSingleProjectPage from "./pages/ViewSingleProjectPage";
 import ViewAssignedIssuesPage from "./pages/ViewAssignedIssuesPage";
+import ViewIssuePage from "./pages/ViewIssuePage";
 
 function App() {
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
@@ -72,6 +73,10 @@ function App() {
                     <Route
                         path={"/add-project"}
                         element={<AddProjectPage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
+                    />
+                    <Route
+                        path={"/issues/:id"}
+                        element={<ViewIssuePage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
                     />
                 </Routes>
             </div>
