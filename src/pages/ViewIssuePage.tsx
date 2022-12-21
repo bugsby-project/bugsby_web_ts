@@ -73,16 +73,17 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
             .catch(() => navigate("/error"));
     }, [authenticationResponse.jwt, api.issues, api.projects, api.users, navigate, id]);
 
-    // todo proper test
     const handleDeleteButtonClicked = () => api.issues.deleteIssue(+id!)
-        .then(() => navigate(-1))
-        .then(() => setSnackbarProps({
-            open: true,
-            alertProps: {
-                severity: "success",
-                action: <>{"Deleted issue successfully"}</>
-            }
-        }))
+        .then(() => {
+            navigate(`/projects/${project.id}`);
+            setSnackbarProps({
+                open: true,
+                alertProps: {
+                    severity: "success",
+                    action: <>{"Deleted issue successfully"}</>
+                }
+            })
+        })
         .catch(error => setSnackbarProps({
             open: true,
             alertProps: {
