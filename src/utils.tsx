@@ -70,5 +70,3 @@ export const getIssueIcon = (issue: IssueResponse) => {
             );
     }
 };
-
-export const emptyPromise = new Promise((resolve) => resolve(null));

@@ -17,7 +17,7 @@ import BugsbyDrawer from "../components/BugsbyDrawer";
 import styles from "../styles/styles.module.css";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import {emptyPromise, getIssueIcon} from "../utils";
+import {getIssueIcon} from "../utils";
 
 interface Props {
     api: Api<any>;
@@ -30,7 +30,6 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
     const navigate = useNavigate();
     const [issue, setIssue] = useState<IssueResponse>({});
     const [project, setProject] = useState<ProjectResponse>({});
-    const [assignee, setAssignee] = useState<UserResponse>({});
     const [reporter, setReporter] = useState<UserResponse>({});
     const [usernames, setUsernames] = useState<UsernameList>({});
     const [issueRequest, setIssueRequest] = useState<IssueRequest>({});
@@ -64,11 +63,7 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
                     .then(response => setReporter(response.data))
                     .then(() => issueResponse.assigneeId ?
                         api.users.getUserById(issueResponse.assigneeId)
-                            .then(response => {
-                                setAssignee(response.data);
-                                setSelectedUsernameAssignee(response.data.username!);
-                            }) :
-                        {})
+                            .then(response => setSelectedUsernameAssignee(response.data.username!)) : {})
             })
             .catch(() => navigate("/error"));
     }, [authenticationResponse.jwt, api.issues, api.projects, api.users, navigate, id]);
@@ -92,14 +87,8 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
             }
         }));
 
-    // todo fix
     const handleUpdateButtonClicked = () => {
-        console.log(selectedUsernameAssignee);
-        (selectedUsernameAssignee ?
-            api.users.getUserByUsername({username: selectedUsernameAssignee})
-                .then(response => setIssueRequest(prev => ({...prev, assigneeId: response.data.id})))
-            : emptyPromise)
-            .then(() => api.issues.updateIssue(issue.id!, issueRequest))
+        api.issues.updateIssue(issue.id!, issueRequest)
             .then(() => setSnackbarProps({
                 open: true,
                 alertProps: {
@@ -243,7 +232,15 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
                 )}
                 options={usernames.usernames ? usernames.usernames : []}
                 value={selectedUsernameAssignee ? selectedUsernameAssignee : null}
-                onChange={(event: any, newValue: string | null) => setSelectedUsernameAssignee(newValue ? newValue : "")}
+                onChange={(event: any, newValue: string | null) => {
+                    setSelectedUsernameAssignee(newValue ? newValue : "");
+                    if (newValue) {
+                        api.users.getUserByUsername({username: newValue})
+                            .then(response => setIssueRequest((prev) => ({...prev, assigneeId: response.data.id})))
+                    } else {
+                        setIssueRequest((prev) => ({...prev, assigneeId: undefined}));
+                    }
+                }}
             />
             <Button
                 variant={"contained"}
