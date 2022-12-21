@@ -61,3 +61,15 @@
     align-self: center;
     gap: 15px;
 }
+
+.deleteButton {
+    background-color: white !important;
+    color: red !important;
+    border-color: red !important;
+}
+
+.deleteButton:hover {
+    background-color: red !important;
+    color: white !important;
+    border-color: white !important;
+}
