@@ -59,16 +59,16 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 .then(response => setIssues(response.data))
                 .then(() => api.users.getUsernames())
                 .then(response => setUsernames(response.data))
-                .catch(error => navigate("/error"));
+                .catch(() => navigate("/error"));
             setInvolvementsRequest((prevState) => ({...prevState, requesterId: authenticationResponse.user?.id}));
         }
         , [id, api.projects, api.users, authenticationResponse, navigate])
 
     const handleButtonClicked = () => setOpen(true);
-    const handleConfirm = (event: any) => {
+    const handleConfirm = () => {
         authenticationResponse.jwt &&
         api.involvements.addParticipant(involvementsRequest)
-            .then(result => setSnackbarProps({
+            .then(() => setSnackbarProps({
                 open: true,
                 alertProps: {
                     severity: "success",
@@ -85,7 +85,7 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
             }))
     }
 
-    const handleIssueButtonClicked = () => navigate("/add-issue");
+    const handleIssueButtonClicked = () => navigate(`/projects/${project.id}/add-issue`);
 
     const content = (
         <Box className={styles.formBox}>
@@ -152,7 +152,7 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
             content={content}
             authenticationResponse={authenticationResponse}
             contentClassName={styles.contentImplicitHeight}
-            contentStyle={{height: (involvements.involvements || issues.issues) ? "100vh" : "100%"}}
+            contentStyle={{height: (involvements.involvements && issues.issues) ? "100%" : "100vh"}}
         />
     )
 };
