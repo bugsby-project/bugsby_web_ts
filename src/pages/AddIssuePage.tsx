@@ -1,6 +1,6 @@
 import {
     Api,
-    AuthenticationResponse,
+    AuthenticationResponse, IssueList,
     IssueRequest,
     IssueType,
     ProjectResponse,
@@ -17,6 +17,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import BugsbyDrawer from "../components/BugsbyDrawer";
 import AddIssueDialog from "../components/AddIssueDialog";
 import {issueTypesMatch, severitiesMatch} from "../utils";
+import DuplicateIssuesDialog from "../components/DuplicateIssuesDialog";
 
 interface Props {
     api: Api<any>;
@@ -34,7 +35,10 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
 
     const [suggestedSeverity, setSuggestedSeverity] = useState<SeverityLevel>();
     const [suggestedType, setSuggestedType] = useState<IssueType>();
-    const [openAddIssueModel, setOpenAddIssueModel] = useState(false);
+    const [openAddIssueModal, setOpenAddIssueModal] = useState(false);
+
+    const [possibleDuplicates, setPossibleDuplicates] = useState<IssueList>({});
+    const [openDuplicatesModal, setOpenDuplicatesModal] = useState(false);
 
     useEffect(() => {
         authenticationResponse.jwt && api.projects.getProjectById(+id!)
@@ -64,7 +68,7 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
                         if (severity.data.severity && issueType.data.type) {
                             const toOpen = !(severitiesMatch(issue.severity, severity.data.severity) && issueTypesMatch(issue.type, issueType.data.type));
                             if (toOpen) {
-                                setOpenAddIssueModel(true);
+                                setOpenAddIssueModal(true);
                             } else {
                                 handleConfirmAddIssueModel();
                             }
@@ -74,9 +78,20 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
     };
 
     const handleConfirmAddIssueModel = () => {
-        // todo open duplicates modal
+        api.ai.retrieveDuplicateIssues(issue)
+            .then(response => {
+                setOpenAddIssueModal(false);
+                setPossibleDuplicates(response.data);
+                if (response.data.issues && response.data.issues?.length > 0) {
+                    setOpenDuplicatesModal(true);
+                } else {
+                    saveIssueApi();
+                }
+            })
+    };
+
+    const saveIssueApi = () => {
         api.issues.addIssue(issue)
-            .then(() => setOpenAddIssueModel(false))
             .then(() => setSnackbarProps({
                 open: true,
                 alertProps: {
@@ -84,14 +99,19 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
                     action: <>{"Saved issue successfully"}</>
                 }
             }))
-            .catch(error => setSnackbarProps({
-                open: true,
-                alertProps: {
-                    severity: "error",
-                    action: <>{error.message}</>
+            .then(() => setOpenDuplicatesModal(false))
+            .catch(error => {
+                setOpenDuplicatesModal(false);
+                setSnackbarProps({
+                        open: true,
+                        alertProps: {
+                            severity: "error",
+                            action: <>{error.response.data.message}</>
+                        }
+                    })
                 }
-            }));
-    };
+            );
+    }
 
     const content = (
         <Box className={styles.formBox}>
@@ -210,12 +230,18 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
                         suggestedSeverity={suggestedSeverity}
                         suggestedType={suggestedType}
                         issue={issue}
-                        open={openAddIssueModel}
-                        setOpen={setOpenAddIssueModel}
+                        open={openAddIssueModal}
+                        setOpen={setOpenAddIssueModal}
                         handleConfirm={handleConfirmAddIssueModel}
                     /> :
                     null
             }
+            <DuplicateIssuesDialog
+                possibleDuplicates={possibleDuplicates}
+                open={openDuplicatesModal}
+                setOpen={setOpenDuplicatesModal}
+                handleConfirm={saveIssueApi}
+            />
         </Box>
     );
 
