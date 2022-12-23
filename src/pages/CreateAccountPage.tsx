@@ -26,7 +26,7 @@ const CreateAccountPage: FC<Props> = ({api, setSnackbarProps}) => {
             open: true,
             alertProps: {
                 severity: "error",
-                action: <>{error.message}</>
+                action: <>{error.response.data.message}</>
             }
         }))
 

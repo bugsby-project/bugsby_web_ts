@@ -80,7 +80,7 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 open: true,
                 alertProps: {
                     severity: "error",
-                    action: <>{error.message}</>
+                    action: <>{error.response.data.message}</>
                 }
             }))
     }
