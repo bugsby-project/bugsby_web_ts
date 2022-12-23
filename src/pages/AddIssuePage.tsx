@@ -4,7 +4,7 @@ import {
     IssueRequest,
     IssueType,
     ProjectResponse,
-    Severity,
+    Severity, SeverityLevel,
     Status,
     UsernameList
 } from "../apis/bugsbyApi";
@@ -15,6 +15,8 @@ import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import styles from "../styles/styles.module.css";
 import {useNavigate, useParams} from "react-router-dom";
 import BugsbyDrawer from "../components/BugsbyDrawer";
+import AddIssueDialog from "../components/AddIssueDialog";
+import {issueTypesMatch, severitiesMatch} from "../utils";
 
 interface Props {
     api: Api<any>;
@@ -30,11 +32,18 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
     const [usernames, setUsernames] = useState<UsernameList>({});
     const [selectedUsernameAssignee, setSelectedUsernameAssignee] = useState<string>();
 
+    const [suggestedSeverity, setSuggestedSeverity] = useState<SeverityLevel>();
+    const [suggestedType, setSuggestedType] = useState<IssueType>();
+    const [openAddIssueModel, setOpenAddIssueModel] = useState(false);
+
     useEffect(() => {
         authenticationResponse.jwt && api.projects.getProjectById(+id!)
             .then(response => {
                 setProject(response.data);
-                setIssue((prev) => ({...prev,
+                setIssue((prev) => ({
+                    ...prev,
+                    title: prev.title ? prev.title : "",
+                    description: prev.description ? prev.description : "",
                     projectId: response.data.id,
                     status: Status.TO_DO,
                     reporterId: authenticationResponse.user?.id
@@ -45,8 +54,29 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
             .catch(() => navigate("/error"));
     }, [authenticationResponse, api.projects, api.users, id, navigate]);
 
-    const handleButtonClicked = () => {
+    const handleSaveButtonClicked = () => {
+        api.ai.getSuggestedSeverity({title: issue.title})
+            .then(severity => {
+                setSuggestedSeverity(severity.data.severity);
+                api.ai.getSuggestedType({title: issue.title})
+                    .then(issueType => {
+                        setSuggestedType(issueType.data.type);
+                        if (severity.data.severity && issueType.data.type) {
+                            const toOpen = !(severitiesMatch(issue.severity, severity.data.severity) && issueTypesMatch(issue.type, issueType.data.type));
+                            if (toOpen) {
+                                setOpenAddIssueModel(true);
+                            } else {
+                                handleConfirmAddIssueModel();
+                            }
+                        }
+                    });
+            })
+    };
+
+    const handleConfirmAddIssueModel = () => {
+        // todo open duplicates modal
         api.issues.addIssue(issue)
+            .then(() => setOpenAddIssueModel(false))
             .then(() => setSnackbarProps({
                 open: true,
                 alertProps: {
@@ -169,11 +199,23 @@ const AddIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}
             />
             <Button
                 variant={"contained"}
-                onClick={handleButtonClicked}
+                onClick={handleSaveButtonClicked}
                 className={styles.button}
             >
                 Save
             </Button>
+            {
+                (suggestedType && suggestedSeverity) ?
+                    <AddIssueDialog
+                        suggestedSeverity={suggestedSeverity}
+                        suggestedType={suggestedType}
+                        issue={issue}
+                        open={openAddIssueModel}
+                        setOpen={setOpenAddIssueModel}
+                        handleConfirm={handleConfirmAddIssueModel}
+                    /> :
+                    null
+            }
         </Box>
     );
 
