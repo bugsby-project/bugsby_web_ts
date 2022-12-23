@@ -32,7 +32,7 @@ const AddProjectPage: FC<Props> = ({api, authenticationResponse, setSnackbarProp
                     open: true,
                     alertProps: {
                         severity: "error",
-                        action: <>{error.message}</>
+                        action: <>{error.response.data.message}</>
                     }
                 }))
         }

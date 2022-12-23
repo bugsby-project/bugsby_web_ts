@@ -1,4 +1,4 @@
-import {IssueResponse, IssueType, Severity} from "./apis/bugsbyApi";
+import {IssueResponse, IssueType, Severity, SeverityLevel} from "./apis/bugsbyApi";
 import BugReportIcon from "@mui/icons-material/BugReportOutlined";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -70,3 +70,14 @@ export const getIssueIcon = (issue: IssueResponse) => {
             );
     }
 };
+
+export const severityMapping = {
+    [SeverityLevel.NON_SEVERE]: [Severity.TRIVIAL, Severity.MINOR],
+    [SeverityLevel.SEVERE]: [Severity.BLOCKER, Severity.CRITICAL]
+}
+
+export const severitiesMatch = (chosen: Severity | undefined, predicted: SeverityLevel) => {
+    return severityMapping[predicted].find(s => s === chosen);
+};
+
+export const issueTypesMatch = (chosen: IssueType | undefined, predicted: IssueType) => chosen === predicted;

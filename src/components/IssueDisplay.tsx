@@ -20,6 +20,7 @@ const IssueDisplay: FC<Props> = ({issue}) => {
         <Link
             to={`/issues/${issue.id}`}
             className={styles.link}
+            target={"_blank"}
         >
             <Grid
                 container

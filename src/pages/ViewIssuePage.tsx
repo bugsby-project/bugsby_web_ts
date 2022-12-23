@@ -83,7 +83,7 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
             open: true,
             alertProps: {
                 severity: "error",
-                action: <>{error.message}</>
+                action: <>{error.response.data.message}</>
             }
         }));
 
@@ -100,7 +100,7 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
                 open: true,
                 alertProps: {
                     severity: "error",
-                    action: <>{error.message}</>
+                    action: <>{error.response.data.message}</>
                 }
             }))
     };

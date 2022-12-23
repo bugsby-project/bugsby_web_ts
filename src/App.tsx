@@ -11,6 +11,7 @@ import AddProjectPage from "./pages/AddProjectPage";
 import ViewSingleProjectPage from "./pages/ViewSingleProjectPage";
 import ViewAssignedIssuesPage from "./pages/ViewAssignedIssuesPage";
 import ViewIssuePage from "./pages/ViewIssuePage";
+import AddIssuePage from "./pages/AddIssuePage";
 
 function App() {
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
@@ -62,9 +63,8 @@ function App() {
                         element={<ViewAssignedIssuesPage api={api} authenticationResponse={authenticationResponse}/>}
                     />
                     <Route
-                        path={"/add-issue"}
-                        // todo replace with actual component
-                        element={<div></div>}
+                        path={"/projects/:id/add-issue"}
+                        element={<AddIssuePage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
                     />
                     <Route
                         path={"/projects/:id"}
