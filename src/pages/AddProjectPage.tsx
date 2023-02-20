@@ -4,6 +4,7 @@ import {BugsbySnackbarProps} from "../components/BugsbySnackbar";
 import BugsbyDrawer from "../components/BugsbyDrawer";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import styles from "../styles/styles.module.css";
+import InformationPopover from "../components/InformationPopover";
 
 interface Props {
     api: Api<any>;
@@ -77,7 +78,17 @@ const AddProjectPage: FC<Props> = ({api, authenticationResponse, setSnackbarProp
                 className={styles.textField}
                 variant={"outlined"}
                 label={"Token"}
-                // todo add end adornment to detail the token
+                InputProps={{
+                    endAdornment: (
+                        <InformationPopover
+                            message={(
+                                <>
+                                    GitHub access token with repo scope for private repositories and public_repo cope for public repositories.
+                                </>
+                            )}
+                        />
+                    )
+                }}
                 value={projectRequest.token ? projectRequest.token : ""}
                 onChange={(event) => setProjectRequest(({...projectRequest, token: event.target.value}))}
             />
