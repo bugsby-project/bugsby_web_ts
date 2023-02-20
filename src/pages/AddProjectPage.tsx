@@ -59,6 +59,28 @@ const AddProjectPage: FC<Props> = ({api, authenticationResponse, setSnackbarProp
                 value={projectRequest.description ? projectRequest.description : ""}
                 onChange={(event) => setProjectRequest(({...projectRequest, description: event.target.value}))}
             />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Repository owner"}
+                value={projectRequest.repositoryOwner ? projectRequest.repositoryOwner : ""}
+                onChange={(event) => setProjectRequest(({...projectRequest, repositoryOwner: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Repository name"}
+                value={projectRequest.repositoryName ? projectRequest.repositoryName : ""}
+                onChange={(event) => setProjectRequest(({...projectRequest, repositoryName: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Token"}
+                // todo add end adornment to detail the token
+                value={projectRequest.token ? projectRequest.token : ""}
+                onChange={(event) => setProjectRequest(({...projectRequest, token: event.target.value}))}
+            />
             <Autocomplete
                 disablePortal={true}
                 className={styles.textField}
