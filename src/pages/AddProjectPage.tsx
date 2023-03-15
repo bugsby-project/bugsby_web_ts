@@ -4,6 +4,7 @@ import {BugsbySnackbarProps} from "../components/BugsbySnackbar";
 import BugsbyDrawer from "../components/BugsbyDrawer";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import styles from "../styles/styles.module.css";
+import InformationPopover from "../components/InformationPopover";
 
 interface Props {
     api: Api<any>;
@@ -58,6 +59,38 @@ const AddProjectPage: FC<Props> = ({api, authenticationResponse, setSnackbarProp
                 label={"Description"}
                 value={projectRequest.description ? projectRequest.description : ""}
                 onChange={(event) => setProjectRequest(({...projectRequest, description: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Repository owner"}
+                value={projectRequest.repositoryOwner ? projectRequest.repositoryOwner : ""}
+                onChange={(event) => setProjectRequest(({...projectRequest, repositoryOwner: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Repository name"}
+                value={projectRequest.repositoryName ? projectRequest.repositoryName : ""}
+                onChange={(event) => setProjectRequest(({...projectRequest, repositoryName: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Token"}
+                InputProps={{
+                    endAdornment: (
+                        <InformationPopover
+                            message={(
+                                <>
+                                    GitHub access token with repo scope for private repositories and public_repo cope for public repositories.
+                                </>
+                            )}
+                        />
+                    )
+                }}
+                value={projectRequest.token ? projectRequest.token : ""}
+                onChange={(event) => setProjectRequest(({...projectRequest, token: event.target.value}))}
             />
             <Autocomplete
                 disablePortal={true}

@@ -13,7 +13,7 @@ import {BugsbySnackbarProps} from "../components/BugsbySnackbar";
 import {useNavigate, useParams} from "react-router-dom";
 import BugsbyDrawer from "../components/BugsbyDrawer";
 import styles from "../styles/styles.module.css";
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, TextField, Typography} from "@mui/material";
 import ParticipantDisplay from "../components/ParticipantDisplay";
 import Divider from "@mui/material/Divider";
 import AddParticipantDialog from "../components/AddParticipantDialog";
@@ -84,6 +84,24 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
                 }
             }))
     }
+    const handleUpdateButtonClicked = () => {
+        authenticationResponse.jwt &&
+        api.projects.updateProjectById(+id!, project)
+            .then(() => setSnackbarProps({
+                open: true,
+                alertProps: {
+                    severity: "success",
+                    action: <>Updated project successfully</>
+                }
+            }))
+            .catch(error => setSnackbarProps({
+                open: true,
+                alertProps: {
+                    severity: "error",
+                    action: <>{error.response.data.message}</>
+                }
+            }));
+    };
 
     const handleIssueButtonClicked = () => navigate(`/projects/${project.id}/add-issue`);
 
@@ -95,6 +113,35 @@ const ViewSingleProjectPage: FC<Props> = ({api, authenticationResponse, setSnack
             <Typography className={styles.subTitle}>
                 {project.description}
             </Typography>
+            <Divider/>
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Repository owner"}
+                value={project.repositoryOwner ? project.repositoryOwner : ""}
+                onChange={(event) => setProject(({...project, repositoryOwner: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Repository name"}
+                value={project.repositoryName ? project.repositoryName : ""}
+                onChange={(event) => setProject(({...project, repositoryName: event.target.value}))}
+            />
+            <TextField
+                className={styles.textField}
+                variant={"outlined"}
+                label={"Token"}
+                value={project.token ? project.token : ""}
+                onChange={(event) => setProject(({...project, token: event.target.value}))}
+            />
+            <Button
+                variant={"contained"}
+                onClick={handleUpdateButtonClicked}
+                className={styles.button}
+            >
+                Update
+            </Button>
             <Divider/>
             <Typography className={styles.subSubTitle}>
                 Participants
