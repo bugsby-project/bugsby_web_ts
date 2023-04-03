@@ -54,6 +54,7 @@ const ViewPrefilledIssuePage: FC<Props> = ({api, authenticationResponse, setSnac
                 action: <>{"Saved issue successfully"}</>
             }
         }))
+        .then(() => navigate(`/projects/${projectId}`))
         .catch(error => setSnackbarProps({
             open: true,
             alertProps: {
