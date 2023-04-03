@@ -203,6 +203,7 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
                             onChange={(e) => setIssueRequest((prev) => ({...prev, expectedBehaviour: e.target.value}))}
                         />
                         <TextField
+                            multiline={true}
                             className={styles.textField}
                             variant={"outlined"}
                             label={"Actual behaviour"}
@@ -210,6 +211,7 @@ const ViewIssuePage: FC<Props> = ({api, authenticationResponse, setSnackbarProps
                             onChange={(e) => setIssueRequest((prev) => ({...prev, actualBehaviour: e.target.value}))}
                         />
                         <TextField
+                            multiline={true}
                             className={styles.textField}
                             variant={"outlined"}
                             label={"Stack trace"}
