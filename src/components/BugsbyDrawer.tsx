@@ -15,6 +15,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import BugsbyLogo from "./BugsbyLogo";
 import MenuOptionListItem from "./MenuOptionListItem";
 import {CodeOutlined, LogoutOutlined, PestControlOutlined} from "@mui/icons-material";
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 import {Link} from "react-router-dom";
 import styles from "../styles/styles.module.css";
 import {AuthenticationResponse} from "../apis/bugsbyApi";
@@ -134,7 +135,8 @@ const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassN
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader sx={{backgroundColor: "#112d4e"}}>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon htmlColor={"white"}/> : <ChevronLeftIcon htmlColor={"white"}/>}
+                        {theme.direction === 'rtl' ? <ChevronRightIcon htmlColor={"white"}/> :
+                            <ChevronLeftIcon htmlColor={"white"}/>}
                     </IconButton>
                 </DrawerHeader>
                 <Divider color={"#112d4e"}/>
@@ -149,10 +151,16 @@ const BugsbyDrawer: FC<Props> = ({content, authenticationResponse, contentClassN
                         content={"Issues"}
                         linkPath={`/${authenticationResponse.user?.username}/assigned-issues`}
                     />
+                    <MenuOptionListItem
+                        icon={<EqualizerIcon htmlColor={"white"} fontSize={"large"}/>}
+                        content={"Statistics"}
+                        linkPath={`/${authenticationResponse.user?.username}/statistics`}
+                    />
                 </List>
                 <List style={{marginTop: "auto", backgroundColor: "#112d4e"}}>
                     <MenuOptionListItem
-                        icon={<LogoutOutlined htmlColor={"white"} fontSize={"large"} onClick={() => window.localStorage.clear()}/>}
+                        icon={<LogoutOutlined htmlColor={"white"} fontSize={"large"}
+                                              onClick={() => window.localStorage.clear()}/>}
                         content={"Logout"}
                         linkPath={"/"}
                     />

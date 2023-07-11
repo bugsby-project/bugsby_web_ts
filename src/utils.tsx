@@ -1,4 +1,4 @@
-import {IssueResponse, IssueType, Severity, SeverityLevel} from "./apis/bugsbyApi";
+import {InvolvementsList, IssueResponse, IssueType, Severity, SeverityLevel} from "./apis/bugsbyApi";
 import BugReportIcon from "@mui/icons-material/BugReportOutlined";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -81,3 +81,13 @@ export const severitiesMatch = (chosen: Severity | undefined, predicted: Severit
 };
 
 export const issueTypesMatch = (chosen: IssueType | undefined, predicted: IssueType) => chosen === predicted;
+
+export const getUserFullName = (involvements: InvolvementsList, username: string | undefined) => {
+    if (involvements.involvements && involvements.involvements.length !== 0) {
+        return `${involvements.involvements.at(0)!.user!.firstName} ${involvements.involvements.at(0)!.user!.lastName}`
+    }
+    if (username) {
+        return username;
+    }
+    return '';
+};
