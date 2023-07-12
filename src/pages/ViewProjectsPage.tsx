@@ -7,22 +7,13 @@ import {Box, Button, Typography} from "@mui/material";
 import styles from "../styles/styles.module.css";
 import ProjectDisplay from "../components/ProjectDisplay";
 import {useNavigate, useParams} from "react-router-dom";
+import {getUserFullName} from "../utils";
 
 interface Props {
     api: Api<any>;
     authenticationResponse: AuthenticationResponse;
     setSnackbarProps: Dispatch<SetStateAction<BugsbySnackbarProps>>;
 }
-
-const getUserFullName = (involvements: InvolvementsList, username: string | undefined) => {
-    if (involvements.involvements && involvements.involvements.length !== 0) {
-        return `${involvements.involvements.at(0)!.user!.firstName} ${involvements.involvements.at(0)!.user!.lastName}`
-    }
-    if (username) {
-        return username;
-    }
-    return '';
-};
 
 const ViewProjectsPage: FC<Props> = ({api, authenticationResponse, setSnackbarProps}) => {
     const {username} = useParams();

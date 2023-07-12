@@ -13,6 +13,7 @@ import ViewAssignedIssuesPage from "./pages/ViewAssignedIssuesPage";
 import ViewIssuePage from "./pages/ViewIssuePage";
 import AddIssuePage from "./pages/AddIssuePage";
 import ViewPrefilledIssuePage from "./pages/ViewPrefilledIssuePage";
+import StatisticsPage from "./pages/StatisticsPage";
 
 function App() {
     const [snackbarProps, setSnackbarProps] = useState<BugsbySnackbarProps>({
@@ -82,6 +83,10 @@ function App() {
                     <Route
                         path={"/issues/:id"}
                         element={<ViewIssuePage api={api} setSnackbarProps={setSnackbarProps} authenticationResponse={authenticationResponse}/>}
+                    />
+                    <Route
+                        path={"/:username/statistics"}
+                        element={<StatisticsPage api={api} authenticationResponse={authenticationResponse}/>}
                     />
                 </Routes>
             </div>
