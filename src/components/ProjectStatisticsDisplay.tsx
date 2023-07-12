@@ -44,31 +44,27 @@ const ProjectStatisticsDisplay: FC<Props> = ({involvement, expectedBehaviourCoun
             </Grid>
             <Accordion sx={{width: "100%"}}>
                 <AccordionSummary>
-                    <Grid
-                        container
-                    >
-                        <Grid item xs={6}>
-                            <BarChartIcon
-                                fontSize={"large"}
-                                onClick={(e) => {
-                                    if (chartType !== ChartType.ExpectedBehaviour && chartType) {
-                                        e.stopPropagation();
-                                    }
-                                    setChartType(ChartType.ExpectedBehaviour)
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <ShowChartIcon
-                                fontSize={"large"}
-                                onClick={(e) => {
-                                    if (chartType !== ChartType.NumberIssues && chartType) {
-                                        e.stopPropagation();
-                                    }
-                                    setChartType(ChartType.NumberIssues)
-                                }}
-                            />
-                        </Grid>
+                    <Grid item xs={6}>
+                        <BarChartIcon
+                            fontSize={"large"}
+                            onClick={(e) => {
+                                if (chartType !== ChartType.ExpectedBehaviour && chartType) {
+                                    e.stopPropagation();
+                                }
+                                setChartType(ChartType.ExpectedBehaviour)
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <ShowChartIcon
+                            fontSize={"large"}
+                            onClick={(e) => {
+                                if (chartType !== ChartType.NumberIssues && chartType) {
+                                    e.stopPropagation();
+                                }
+                                setChartType(ChartType.NumberIssues)
+                            }}
+                        />
                     </Grid>
                 </AccordionSummary>
                 <AccordionDetails>
