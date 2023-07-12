@@ -29,7 +29,7 @@ const StatisticsPage: FC<Props> = ({api, authenticationResponse}) => {
                     setInvolvements(response.data);
                     response.data.involvements?.map(i => i.project?.id)
                         .forEach(id => api.prefilledIssues.getPrefilledIssuesCountByExpectedBehaviourWithProject(id!)
-                            .then(response => setExpectedBehaviourCounts(new Map().set(id, response.data)))
+                            .then(response => setExpectedBehaviourCounts((prev) => new Map(prev).set(id!, response.data)))
                             .catch(error => navigate("/error")))
                 })
                 .catch(error => navigate("/error"));

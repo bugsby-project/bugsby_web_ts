@@ -4,6 +4,7 @@ import styles from "../styles/styles.module.css";
 import {Accordion, AccordionDetails, AccordionSummary, Grid, Typography} from "@mui/material";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import ExpectedBehaviourBarChart from "./ExpectedBehaviourBarChart";
 
 interface Props {
     involvement: InvolvementResponse;
@@ -22,6 +23,13 @@ const ProjectStatisticsDisplay: FC<Props> = ({involvement, expectedBehaviourCoun
         margin: "10px",
         color: "#112d4e",
         fontWeight: "400"
+    };
+
+    const getChartComponent = () => {
+        switch (chartType) {
+            case ChartType.ExpectedBehaviour:
+                return <ExpectedBehaviourBarChart expectedBehaviourCount={expectedBehaviourCount}/>
+        }
     };
 
     return (
@@ -64,8 +72,7 @@ const ProjectStatisticsDisplay: FC<Props> = ({involvement, expectedBehaviourCoun
                     </Grid>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {/* todo add chart depending on chartType */}
-                    {chartType}
+                    {getChartComponent()}
                 </AccordionDetails>
             </Accordion>
         </Grid>
