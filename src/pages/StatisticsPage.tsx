@@ -2,6 +2,7 @@ import {
     Api,
     AuthenticationResponse,
     InvolvementsList,
+    PrefilledIssueCreationMonthCountResponse,
     PrefilledIssueExpectedBehaviourCountResponse
 } from "../apis/bugsbyApi";
 import * as React from "react";
@@ -22,6 +23,7 @@ const StatisticsPage: FC<Props> = ({api, authenticationResponse}) => {
     const navigate = useNavigate();
     const [involvements, setInvolvements] = useState<InvolvementsList>({});
     const [expectedBehaviourCounts, setExpectedBehaviourCounts] = useState<Map<number, PrefilledIssueExpectedBehaviourCountResponse>>(new Map());
+    const [creationMonthCounts, setCreationMonthCounts] = useState<Map<number, PrefilledIssueCreationMonthCountResponse>>(new Map());
 
     useEffect(() => {
             authenticationResponse.jwt && api.involvements.getInvolvementsByUsername({username: username!})
@@ -30,6 +32,10 @@ const StatisticsPage: FC<Props> = ({api, authenticationResponse}) => {
                     response.data.involvements?.map(i => i.project?.id)
                         .forEach(id => api.prefilledIssues.getPrefilledIssuesCountByExpectedBehaviourWithProject(id!)
                             .then(response => setExpectedBehaviourCounts((prev) => new Map(prev).set(id!, response.data)))
+                            .catch(error => navigate("/error")))
+                    response.data.involvements?.map(i => i.project?.id)
+                        .forEach(id => api.prefilledIssues.getPrefilledIssuesCountByCreationMonthWithProject(id!)
+                            .then(response => setCreationMonthCounts((prev) => new Map(prev).set(id!, response.data)))
                             .catch(error => navigate("/error")))
                 })
                 .catch(error => navigate("/error"));
@@ -53,6 +59,7 @@ const StatisticsPage: FC<Props> = ({api, authenticationResponse}) => {
                         <ProjectStatisticsDisplay
                             involvement={involvement}
                             expectedBehaviourCount={expectedBehaviourCounts.get(involvement.project?.id!)!}
+                            numberIssuesCount={creationMonthCounts.get(involvement.project?.id!)!}
                             key={index}
                         />
                     )) :
