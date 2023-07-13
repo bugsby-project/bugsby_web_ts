@@ -1,14 +1,20 @@
-import {InvolvementResponse, PrefilledIssueExpectedBehaviourCountResponse} from "../apis/bugsbyApi";
+import {
+    InvolvementResponse,
+    PrefilledIssueCreationMonthCountResponse,
+    PrefilledIssueExpectedBehaviourCountResponse
+} from "../apis/bugsbyApi";
 import {FC, useState} from "react";
 import styles from "../styles/styles.module.css";
 import {Accordion, AccordionDetails, AccordionSummary, Grid, Typography} from "@mui/material";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import ExpectedBehaviourBarChart from "./ExpectedBehaviourBarChart";
+import NumberIssuesLineChart from "./NumberIssuesLineChart";
 
 interface Props {
     involvement: InvolvementResponse;
     expectedBehaviourCount: PrefilledIssueExpectedBehaviourCountResponse;
+    numberIssuesCount: PrefilledIssueCreationMonthCountResponse;
 }
 
 enum ChartType {
@@ -16,7 +22,7 @@ enum ChartType {
     NumberIssues
 }
 
-const ProjectStatisticsDisplay: FC<Props> = ({involvement, expectedBehaviourCount}) => {
+const ProjectStatisticsDisplay: FC<Props> = ({involvement, expectedBehaviourCount, numberIssuesCount}) => {
     const [chartType, setChartType] = useState<ChartType>();
 
     const stylesTypography = {
@@ -29,6 +35,8 @@ const ProjectStatisticsDisplay: FC<Props> = ({involvement, expectedBehaviourCoun
         switch (chartType) {
             case ChartType.ExpectedBehaviour:
                 return <ExpectedBehaviourBarChart expectedBehaviourCount={expectedBehaviourCount}/>
+            case ChartType.NumberIssues:
+                return <NumberIssuesLineChart numberIssuesCount={numberIssuesCount}/>
         }
     };
 
